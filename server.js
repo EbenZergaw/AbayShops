@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose')
 
 const Seller = require('./SellerSchema')
+const sellerBot = require('./sellerBot')
 
 // Connect to database
 mongoose.connect('mongodb://localhost:27017/Abay_Shops');
@@ -19,6 +20,7 @@ app.use(cors({
 // Increasing file size limit for uploading base64 images
 app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
+
 
 // REGISTER SELLER
 app.post('/newseller', async(req, res) => {
@@ -41,4 +43,19 @@ app.post('/newseller', async(req, res) => {
         console.log(error);
         res.json({msg: "ERROR"})
     }
+})
+
+// POST ITEM
+app.post('/postItem', async(req, res) => {
+    const data = req.body
+
+    // let seller = await Seller.findOne({id: data.id})
+    // seller.items.push({
+    //     itemName: data.itemName,
+    //     price: data.price,
+    //     quantity: data.quantity,
+    // })
+    // await seller.save()
+
+    sellerBot.newItemNotification(data)
 })
