@@ -118,6 +118,10 @@ app.get('/image/:itemID', async(req, res) => {
 
 })
 
+app.get('/test', (req, res) => {
+    res.json('test passed')
+})
+
 // NEW ORDER
 app.post('/neworder/:storeCode/:itemID', async(req, res) => {
 

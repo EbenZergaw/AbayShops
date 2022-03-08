@@ -9,7 +9,8 @@ bot.seller = {}
 const helpMessage = `
   /connect (key)  = To connect your account
 /newitem = To upload new item
-/orders = To view all orders
+/orders = To view all orders 
+- Press 'CLEAR ORDER' button when an order is completed
 /items = To show all your items
 /help = To show this message again
 `
