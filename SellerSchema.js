@@ -11,7 +11,7 @@ const SellerSchema = new mongoose.Schema({
         required: true
     },
     phone: {
-        type: Number,
+        type: String,
         required: true,
         unique: true
     },
@@ -20,16 +20,23 @@ const SellerSchema = new mongoose.Schema({
         required: true,
         unique: true
     },
-    storeName: {
+    storeCode: {
         type: String,
         unique: true
     },
-    storeCode: {
+    key: {
         type: String,
+        unique: true,
         required: true,
     },
-    id: {
-        type: Number
+    telegramID: {
+
+    },
+    storeName: {
+        type: String,
+    },
+    misc: {
+        type: String
     },
     items: [],
     orders: []

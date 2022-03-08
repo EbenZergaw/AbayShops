@@ -1,57 +1,191 @@
 const {Telegraf} = require('telegraf')
 const bot = new Telegraf('5130311042:AAFkNnOOLPajXav4gNZQFK3j9orDv_CS5RQ')
-const mongoose = require('mongoose')
 const Seller = require('./SellerSchema')
+const Item = require('./ItemSchema')
+const adminBot = require('./adminBot')
+
+bot.seller = {}
+
+const helpMessage = `
+  /connect (key)  = To connect your account
+/newitem = To upload new item
+/orders = To view all orders
+/items = To show all your items
+/help = To show this message again
+`
 
 bot.start(ctx => {
     ctx.reply(`Welcome ${ctx.chat.first_name}`)
-    console.log(ctx.chat.id)
+    ctx.reply(helpMessage)
+})
+
+bot.help(ctx => {
+  ctx.reply(helpMessage)
+})
+
+bot.use(async(ctx, next) => {
+
+  if(ctx.update.message == undefined){
+    next(ctx)
+  } else if(!bot.seller.key && !ctx.update.message.text.includes('/connect')){
+    ctx.reply('Please connect by using /connect and entering your key ')
+  } else {
+    next(ctx)
+  }
+  
 })
 
 // Connect user to database
-bot.command('/connect', async(ctx) => {
+bot.command('/connect', async(ctx, next) => {
     let input = ctx.message.text
     let inputArr = input.split(" ")
-    let storeCode = inputArr[1]
+    let key = inputArr[1]
 
-    let seller = await Seller.findOne({storeCode})
+    let seller = await Seller.findOne({key})
 
     if(!seller){
         ctx.reply("Please enter a valid code")
     } else {
-        ctx.state.storeCode = storeCode
-        ctx.state.storeName = seller.storeName
-        seller.id = ctx.chat.id
+
+        bot.seller.key = seller.key
+        bot.seller.storeCode = seller.storeCode
+        seller.telegramID = ctx.update.message.chat.id
         await seller.save()
         ctx.reply("You have connected!")
     }
 })
 
-bot.command('newItem', (ctx) => {
+
+// Add new item
+bot.command(['newItem', 'newitem'], (ctx) => {
+
     bot.telegram.sendMessage(ctx.chat.id, "Add New Item", {
         reply_markup: {
           inline_keyboard: [
             [
-              { text: 'Add New Item', url: `http://localhost:5000/${ctx.state.storeName}/newitem?id=${ctx.chat.id}`}
+              { text: 'Add New Item', url: `127.0.0.1:3000/${bot.seller.storeCode}/newitem?key=${bot.seller.key}`}
             ]
           ]
         }
       })
 })
 
-const newItemNotification = (data) => {
-    bot.telegram.sendMessage(data.id, "You have added a new item")
+
+// LIST OUT ORDERS
+bot.command('orders', async(ctx) => {
+  ctx.reply('Your orders are loading...')
+  let seller = await Seller.findOne({storeCode: bot.seller.storeCode})
+
+  if(seller.orders.length === 0){
+    ctx.reply('You have no orders')
+  } else {
+    seller.orders.forEach(async(order, index) => {
+
+      let item = await Item.findById(order.imageID)
+  
+      ctx.reply(
+      `Buyer: ${order.firstName} ${order.lastName}
+  Phone: ${order.phone}
+  Item: ${item.itemName}`, {reply_markup: {
+    inline_keyboard: [
+      [
+        { text: 'CLEAR ORDER', callback_data: `${item._id}`}
+      ]
+    ]
+  }})
+    })
+  }
+  
+})
+
+bot.action(String, async (ctx) => {
+  let seller = await Seller.findOne({storeCode: bot.seller.storeCode})
+  if(!seller){
+    ctx.reply('Please connect with your key and try again')
+    ctx.answerCbQuery()
+  } else {
+    ctx.answerCbQuery()
+    console.log('item id', ctx.callbackQuery.data)
+    // seller.orders.splice(seller.orders.findIndex(item => item.imageID === ctx.callbackQuery.data), 1)
+    console.log(seller.orders.findIndex(item => item.imageID === ctx.callbackQuery.data))
+    // await seller.save()
+    ctx.reply('Your order has been cleared')
+    adminBot.clearedOrder(seller, ctx.callbackQuery.data)
+  }
+})
+
+// LIST OUT ITEMS
+bot.command('items', async(ctx) => {
+  ctx.reply('Your items are loading...')
+  let seller = await Seller.findOne({storeCode: bot.seller.storeCode})
+  
+  seller.items.forEach(async(id) => {
+    let item = await Item.findById(id)
+    if(item === null){
+      seller.items.splice(seller.items.indexOf(id), 1)
+      await seller.save()
+    } else {
+      ctx.replyWithPhoto({ source: Buffer.from(item.imgString, 'base64')}, 
+        { caption: `${item.itemName}
+        Price: ${item.price} birr
+        Quantity: ${item.quantity}
+        
+        ${item.desc}`,
+          reply_markup: {
+            inline_keyboard: [
+              [
+                { text: 'BUY', url: `127.0.0.1:3000/${bot.seller.storeCode}`}
+              ]
+            ]
+          }
+        }
+      )
+    }
+    
+  })
+})
+
+const newItemNotification = async (id, data) => {
+
+  if(bot.seller.storeCode === undefined){
+    bot.telegram.sendMessage(id, "You have added a new item - Connect with your key and use /items to see it")
+  } else {
+    bot.telegram.sendMessage(id, "You have added a new item - Forward it to your group")
 
     const message = `
-    Item Name: ${data.itemName}
-    Price: ${data.price}
-    Quantity: ${data.quantity}
-    `
-    
-    bot.telegram.sendPhoto(data.id, {source: Buffer.from(data.imgString, 'base64')},{caption: message},)
+    ${data.itemName}
+  Price: ${data.price} birr
+  Quantity: ${data.quantity}
+
+  ${data.desc}
+  `    
+  bot.telegram.sendPhoto(id, {source: Buffer.from(data.imgString, 'base64')}, {
+    caption: message,
+    reply_markup: {
+      inline_keyboard: [
+        [
+          { text: 'BUY', url: `127.0.0.1:3000/${bot.seller.storeCode}`}
+        ]
+      ]
+    }
+  })
+  }
+}
+
+const newOrderNotification = (id, data, imageData) => {
+  bot.telegram.sendMessage(id, "You have a new order")
+
+  const message = `
+  ${data.firstName} ${data.lastName} bought ${imageData.itemName}
+  Buyers Phone: ${data.phone}
+  `
+
+  bot.telegram.sendPhoto(id, {source: Buffer.from(imageData.imgString, 'base64')}, {
+    caption: message})
 }
 
 
 bot.launch()
 
 exports.newItemNotification = newItemNotification
+exports.newOrderNotification = newOrderNotification

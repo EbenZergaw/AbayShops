@@ -5,6 +5,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  box-sizing: border-box;
 }
 
 code {
@@ -12,8 +13,34 @@ code {
     monospace;
 }
 
-/* CORE STYLING */
-.container{
-  width: 80%;
-  margin: auto;
+h1{
+  font-weight: bold;
+}
+
+.card{
+  overflow: hidden;
+  color: black;
+  /* border: 1px solid black; */
+  box-shadow: 0px 0px 21px 6px #cfcfcf;
+  border-radius: 10px;
+  margin: 20px 0;
+}
+
+.card img{
+  display: block;
+  float: left;
+  width: 60%;
+}
+
+.card .info{
+  margin-top: 10px;
+  width: 30%;
+  /* height: 80%; */
+  display: block;
+  float: left;
+  margin-left: 2rem;
+}
+
+.card h4{
+  margin-bottom: 0;
 }
