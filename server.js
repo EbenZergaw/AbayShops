@@ -119,7 +119,7 @@ app.get('/image/:itemID', async(req, res) => {
 })
 
 app.get('/test/:text', (req, res) => {
-    res.json(`test: ${req.params.text}`)
+    res.json(`test: ${req.params.text} :)`)
 })
 
 // NEW ORDER
