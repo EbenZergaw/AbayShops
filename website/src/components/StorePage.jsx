@@ -22,7 +22,7 @@ function StorePage() {
 
     useEffect(() => {
         setView('thumbnail')
-        axios.get(`http://localhost:27017/${params.storeCode}`)
+        axios.get(`https://abay-shops.herokuapp.com/store/${params.storeCode}`)
         .then((res) => {
             setItems(res.data.items)
             setSeller(res.data)

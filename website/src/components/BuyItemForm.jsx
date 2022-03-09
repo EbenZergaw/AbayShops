@@ -5,7 +5,6 @@ import { useParams } from 'react-router-dom'
 
 function BuyItemForm({itemData, setView}) {
 
-    console.log(itemData)
     const [formView, setFormView] = useState('buyerInfo')
     const [orderInfo, setOrderInfo] = useState({})
     const params = useParams()
@@ -15,8 +14,7 @@ function BuyItemForm({itemData, setView}) {
     }, [])
   
     const handleBuy = () => {
-        console.log(itemData._id)
-        axios.post(`http://localhost:27017/neworder/${params.storeCode}/${itemData._id}`, orderInfo)
+        axios.post(`https://abay-shops.herokuapp.com/neworder/${params.storeCode}/${itemData._id}`, orderInfo)
         .then((res) => {
             setView('orderConfirmation')
         })
