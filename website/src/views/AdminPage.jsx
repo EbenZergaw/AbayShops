@@ -22,7 +22,7 @@ function AdminPage() {
         data.storeName = document.getElementById('storeName').value
         data.misc = document.getElementById('misc').value
 
-        axios.post('/newseller', data)
+        axios.post('https://abay-shops.herokuapp.com/newseller', data)
         .then((res) => {
             if(res.status === 201){
               setRegisterMsg('Seller has been registered')
