@@ -118,7 +118,7 @@ app.get('/image/:itemID', async(req, res) => {
 
 })
 
-app.get('/test', (req, res) => {
+app.get('/testpath', (req, res) => {
     res.json('test passed')
 })
 
