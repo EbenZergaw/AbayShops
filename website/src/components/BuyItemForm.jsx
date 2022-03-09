@@ -16,7 +16,7 @@ function BuyItemForm({itemData, setView}) {
   
     const handleBuy = () => {
         console.log(itemData._id)
-        axios.post(`http://localhost:27017/neworder/${params.storeCode}/${itemData._id}`, orderInfo)
+        axios.post(`/${params.storeCode}/${itemData._id}`, orderInfo)
         .then((res) => {
             setView('orderConfirmation')
         })

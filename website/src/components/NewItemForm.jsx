@@ -17,7 +17,7 @@ function NewItemForm() {
     const query = useQuery()
 
     useEffect(() => {
-      axios.get(`http://localhost:27017/valkey/${params.storeCode}/${query.get('key')}`)
+      axios.get(`/valkey/${params.storeCode}/${query.get('key')}`)
       .then((res) => {
         if(res.status === 200){
           setView('form')
