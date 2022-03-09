@@ -1,5 +1,5 @@
 
-import {BrowserRouter as Router, Routes, Route, NavLink} from 'react-router-dom'
+import {BrowserRouter as Router, Routes, Route} from 'react-router-dom'
 import AdminPage from './views/AdminPage'
 import SellerView from './views/SellerView';
 import HomePage from './views/HomePage';

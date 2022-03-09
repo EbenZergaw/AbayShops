@@ -2,7 +2,6 @@ import React from 'react'
 import { useEffect } from 'react'
 import axios from 'axios'
 import { useState } from 'react'
-import {useNavigate} from 'react-router-dom'
 
 function ItemThumbnail({id, setIsBuying, setItemData}) {
 
@@ -18,7 +17,7 @@ function ItemThumbnail({id, setIsBuying, setItemData}) {
     .catch((err) => {
       console.log(err)
     })
-  }, [])
+  }, [id])
 
   if(loaded === false){
     return(
