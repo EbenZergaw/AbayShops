@@ -75,7 +75,7 @@ function NewItemForm() {
           
           setView('loading')
 
-          axios.post('http://localhost:27017/postItem', data)
+          axios.post('https://abay-shops.herokuapp.com/postItem', data)
           .then((res) => {
             setView('complete')
           })
