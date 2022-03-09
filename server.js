@@ -95,7 +95,7 @@ app.post('/postItem', async(req, res) => {
 })
 
 // GET SELLER DATA
-app.get(`/:storeCode`, async(req, res) => {
+app.get(`/store/:storeCode`, async(req, res) => {
     const storeCode = req.params.storeCode
 
     let seller = await Seller.findOne({storeCode})
