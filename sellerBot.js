@@ -64,7 +64,7 @@ bot.command(['newItem', 'newitem'], (ctx) => {
         reply_markup: {
           inline_keyboard: [
             [
-              { text: 'Add New Item', url: `127.0.0.1:3000/${bot.seller.storeCode}/newitem?key=${bot.seller.key}`}
+              { text: 'Add New Item', url: `www.abayshops.com/${bot.seller.storeCode}/newitem?key=${bot.seller.key}`}
             ]
           ]
         }
@@ -135,7 +135,7 @@ bot.command('items', async(ctx) => {
           reply_markup: {
             inline_keyboard: [
               [
-                { text: 'BUY', url: `127.0.0.1:3000/${bot.seller.storeCode}`}
+                { text: 'BUY', url: `abayshops.com/${bot.seller.storeCode}`}
               ]
             ]
           }
@@ -165,7 +165,7 @@ const newItemNotification = async (id, data) => {
     reply_markup: {
       inline_keyboard: [
         [
-          { text: 'BUY', url: `127.0.0.1:3000/${bot.seller.storeCode}`}
+          { text: 'BUY', url: `abayshops.com/${bot.seller.storeCode}`}
         ]
       ]
     }
