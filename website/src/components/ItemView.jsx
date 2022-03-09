@@ -3,7 +3,6 @@ import React from 'react'
 function ItemView({itemData, view, setView}) {
     // const [view, setView] = useState()
     
-    console.log(itemData)
     if(view === 'viewItem'){
         return (
             <div className='container'>

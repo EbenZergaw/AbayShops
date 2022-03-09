@@ -10,7 +10,6 @@
   "scripts": {
     "start": "node server.js"
   },
-  "proxy":"https://abay-shops.herokuapp.com/",
   "name": "abayshops",
   "description": "",
   "version": "1.0.0",

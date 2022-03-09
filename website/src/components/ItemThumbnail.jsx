@@ -9,7 +9,7 @@ function ItemThumbnail({id, setIsBuying, setItemData}) {
   const [loaded, setLoaded] = useState(false)
 
   useEffect(() => {
-    axios.get(`/image/${id}`)
+    axios.get(`https://abay-shops.herokuapp.com/image/${id}`)
     .then((res) => {
       setBuyItemData(res.data)
       setLoaded(true)
