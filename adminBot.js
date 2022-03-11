@@ -34,6 +34,7 @@ const newItemNotification = (seller, item) => {
 }
 
 const clearedOrder = async(seller, itemIndex) => {
+    console.log(seller.orders[itemIndex] !== undefined)
     if(seller.orders[itemIndex] !== undefined){
         let item = await Item.findById(seller.orders[itemIndex].imageID)
 

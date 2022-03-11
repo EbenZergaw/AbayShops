@@ -108,10 +108,10 @@ bot.action(String, async (ctx) => {
     if(itemIndex == -1){
       ctx.reply('This order has already been cleared')
     } else {
+      adminBot.clearedOrder(seller, itemIndex)
       seller.orders.splice(itemIndex, 1)
       await seller.save()
       ctx.reply('Your order has been cleared')
-      adminBot.clearedOrder(seller, itemIndex)
     }
   }
   ctx.answerCbQuery()
