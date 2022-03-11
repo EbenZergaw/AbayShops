@@ -103,15 +103,18 @@ bot.action(String, async (ctx) => {
   let seller = await Seller.findOne({storeCode: bot.seller.storeCode})
   if(!seller){
     ctx.reply('Please connect with your key and try again')
-    ctx.answerCbQuery()
   } else {
-    ctx.answerCbQuery()
     let itemIndex = seller.orders.findIndex(item => item.imageID == ctx.callbackQuery.data)
-    seller.orders.splice(itemIndex, 1)
-    await seller.save()
-    ctx.reply('Your order has been cleared')
-    adminBot.clearedOrder(seller, itemIndex)
+    if(itemIndex == -1){
+      ctx.reply('This order has already been cleared')
+    } else {
+      seller.orders.splice(itemIndex, 1)
+      await seller.save()
+      ctx.reply('Your order has been cleared')
+      adminBot.clearedOrder(seller, itemIndex)
+    }
   }
+  ctx.answerCbQuery()
 })
 
 // LIST OUT ITEMS
