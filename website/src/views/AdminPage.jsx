@@ -13,8 +13,7 @@ function AdminPage() {
 
     const registerSeller = () => {
         const data = {}
-        data.firstName = document.getElementById('firstName').value
-        data.lastName = document.getElementById('lastName').value
+        data.name = document.getElementById('name').value
         data.phone = document.getElementById('phone').value
         data.username = document.getElementById('userName').value
         data.storeCode = document.getElementById('storeCode').value
@@ -33,9 +32,8 @@ function AdminPage() {
     <div className='container'>
         <h1>Register Seller</h1>
 
-        <input type="text" id='firstName' placeholder='First Name' />
+        <input type="text" id='name' placeholder=' Name' />
         <br />
-        <input type="text" id='lastName' placeholder='Last Name' />
         <br />
         <input type="text" id='phone' placeholder='Phone' />
         <br />

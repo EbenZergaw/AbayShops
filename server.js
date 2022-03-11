@@ -41,12 +41,11 @@ app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 
 // REGISTER SELLER
 app.post('/newseller', async(req, res) => {
-    const {firstName, lastName, phone, username, storeCode, storeName, key, misc} = req.body;
+    const {name, phone, username, storeCode, storeName, key, misc} = req.body;
 
     try {
         const seller = new Seller({
-            firstName,
-            lastName,
+            name,
             phone,
             username,
             storeCode,

@@ -16,7 +16,7 @@ const newOrderNotification = (item, buyer, seller) => {
     Buyer Phone Number:  ${buyer.phone}
     Item: ${item.itemName}
 
-    Seller: ${seller.firstName} ${seller.lastName}
+    Seller: ${seller.name}
     Seller Phone Number: ${seller.phone}`)
     } catch (error) {
         console.log(error)
@@ -26,7 +26,7 @@ const newOrderNotification = (item, buyer, seller) => {
 
 const newItemNotification = (seller, item) => {
     bot.telegram.sendMessage(id, `NEW ITEM
-    Seller: ${seller.firstName} ${seller.lastName}
+    Seller: ${seller.name}
     Phone: ${seller.phone}
 
     Item: ${item.itemName}
@@ -38,7 +38,7 @@ const clearedOrder = async(seller, itemIndex) => {
         let item = await Item.findById(seller.orders[itemIndex].imageID)
 
         bot.telegram.sendMessage(id, `ORDER CLEARED
-        Seller: ${seller.firstName} ${seller.lastName}
+        Seller: ${seller.name}
         Phone: ${seller.phone}
         
         Item: ${item.itemName}
