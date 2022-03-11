@@ -4,8 +4,10 @@ const Item = require('./ItemSchema')
 const id = 574620466
 
 bot.start(ctx => {
+    ctx.reply('Welcome')
     // console.log(ctx.update.message.from.id);
 })
+console.log('running');
 
 const newOrderNotification = (item, buyer, seller) => {
     try {
@@ -31,9 +33,9 @@ const newItemNotification = (seller, item) => {
     Price: ${item.price}`)
 }
 
-const clearedOrder = async(seller, itemID) => {
+const clearedOrder = async(seller, itemIndex) => {
 
-    let item = await Item.findById(itemID)
+    let item = await Item.findById(seller.orders[itemIndex].imageID)
 
     bot.telegram.sendMessage(id, `ORDER CLEARED
     Seller: ${seller.firstName} ${seller.lastName}
@@ -42,7 +44,7 @@ const clearedOrder = async(seller, itemID) => {
     Item: ${item.itemName}
     Price: ${item.price}
     
-    // Buyer: ${seller.orders[seller.orders.indexOf(itemID)]}
+    // Buyer: ${seller.orders[itemIndex].firstName}
     `)
 }
 

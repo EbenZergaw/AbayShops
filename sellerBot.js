@@ -106,10 +106,11 @@ bot.action(String, async (ctx) => {
     ctx.answerCbQuery()
   } else {
     ctx.answerCbQuery()
-    seller.orders.splice(seller.orders.findIndex(item => item.imageID == ctx.callbackQuery.data), 1)
+    let itemIndex = seller.orders.findIndex(item => item.imageID == ctx.callbackQuery.data)
+    seller.orders.splice(itemIndex, 1)
     await seller.save()
     ctx.reply('Your order has been cleared')
-    adminBot.clearedOrder(seller, ctx.callbackQuery.data)
+    adminBot.clearedOrder(seller, itemIndex)
   }
 })
 
