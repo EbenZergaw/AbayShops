@@ -34,19 +34,20 @@ const newItemNotification = (seller, item) => {
 }
 
 const clearedOrder = async(seller, itemIndex) => {
+    if(seller.orders[itemIndex] !== undefined){
+        let item = await Item.findById(seller.orders[itemIndex].imageID)
 
-    let item = await Item.findById(seller.orders[itemIndex].imageID)
-
-    bot.telegram.sendMessage(id, `ORDER CLEARED
-    Seller: ${seller.firstName} ${seller.lastName}
-    Phone: ${seller.phone}
-    
-    Item: ${item.itemName}
-    Price: ${item.price}
-    
-    Buyer: ${seller.orders[itemIndex].firstName} ${seller.orders[itemIndex].lastName}
-    Buyer Number: ${seller.orders[itemIndex].phone}
-    `)
+        bot.telegram.sendMessage(id, `ORDER CLEARED
+        Seller: ${seller.firstName} ${seller.lastName}
+        Phone: ${seller.phone}
+        
+        Item: ${item.itemName}
+        Price: ${item.price}
+        
+        Buyer: ${seller.orders[itemIndex].firstName} ${seller.orders[itemIndex].lastName}
+        Buyer Number: ${seller.orders[itemIndex].phone}
+        `)
+    }
 }
 
 exports.newOrderNotification = newOrderNotification
