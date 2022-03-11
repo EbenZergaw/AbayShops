@@ -160,7 +160,7 @@ const newItemNotification = async (id, data) => {
   Price: ${data.price} birr
   Quantity: ${data.quantity}
 
-  ${data.desc}
+${data.desc}
   `    
   bot.telegram.sendPhoto(id, {source: Buffer.from(data.imgString, 'base64')}, {
     caption: message,
