@@ -59,54 +59,57 @@ function NewItemForm() {
       };
   }
 
-  const postItem = () => {
-      const data = {}
-      // CONVERTS IMAGE TO BASE64 THEN SENDS DATA THROUGH CALLBACK
-      getBase64(document.getElementById('photo').files[0], (x) => {
-          data.imgString = x.split("base64,")[1];
+  const postItem = (e) => {
+    e.preventDefault()
+    const data = {}
+    // CONVERTS IMAGE TO BASE64 THEN SENDS DATA THROUGH CALLBACK
+    getBase64(document.getElementById('photo').files[0], (x) => {
+        data.imgString = x.split("base64,")[1];
 
-          data.key = params.key
-          data.storeCode = params.storeCode
-          data.itemName = document.getElementById('itemName').value
-          data.price = document.getElementById('price').value
-          data.quantity = document.getElementById('quantity').value
-          data.desc = document.getElementById('desc').value
-          
-          
-          setView('loading')
+        data.key = params.key
+        data.storeCode = params.storeCode
+        data.itemName = document.getElementById('itemName').value
+        data.price = document.getElementById('price').value
+        data.quantity = document.getElementById('quantity').value
+        data.desc = document.getElementById('desc').value
+        
+        
+        setView('loading')
 
-          axios.post('https://abay-shops.herokuapp.com/postItem', data)
-          .then((res) => {
-            setView('complete')
-          })
-          .catch((err) => {
-            setView('error')
-            // TODO - ERROR HANDLING
-          })
-      })
+        axios.post('https://abay-shops.herokuapp.com/postItem', data)
+        .then((res) => {
+          setView('complete')
+        })
+        .catch((err) => {
+          setView('error')
+          // TODO - ERROR HANDLING
+        })
+    })
   }
+      
     
   if(view === 'form'){
     return (
-      <div className="container">
+      <form className="container" onSubmit={e => postItem(e)}>
           <h1>Add New Item</h1>
   
           <img src="" style={{width: "100%"}}alt=""/>
   
           <input type="file" id="photo" onChange={previewImage}/>
           <br />
-          <input type="text" id='itemName' placeholder='Item Name' />
+          <input type="text" id='itemName' placeholder='Item Name' required/>
           <br />
-          <input type="number" id='price' placeholder='Price' />
+          <input type="number" id='price' placeholder='Price' required/>
           <br />
-          <input type="text" id='quantity' placeholder='Quantity' />
+          <input type="number" id='quantity' placeholder='Quantity' required/>
           <br />
           <textarea name="desc" id="desc" cols="30" rows="10" placeholder='Description'></textarea>
-          <button onClick={postItem}>Submit</button>
+          <input type="submit" value={'Submit'} />
+          {/* <button onClick={postItem}>Submit</button> */}
           <br />
           <button className='button button-outline'>Cancel</button>
   
-      </div>
+      </form>
     )
   } else if (view === 'complete'){
     return(
