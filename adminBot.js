@@ -44,7 +44,8 @@ const clearedOrder = async(seller, itemIndex) => {
     Item: ${item.itemName}
     Price: ${item.price}
     
-    // Buyer: ${seller.orders[itemIndex].firstName}
+    Buyer: ${seller.orders[itemIndex].firstName} ${seller.orders[itemIndex].lastName}
+    Buyer Number: ${seller.orders[itemIndex].phone}
     `)
 }
 
