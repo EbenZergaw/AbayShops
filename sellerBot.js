@@ -26,8 +26,6 @@ bot.help(ctx => {
 })
 
 bot.use(async(ctx, next) => {
-  axios.get('https://abay-shops.herokuapp.com/prevent143')
-
   if(ctx.update.message == undefined){
     next(ctx)
   } else if(!bot.seller.key && !ctx.update.message.text.includes('/connect')){
