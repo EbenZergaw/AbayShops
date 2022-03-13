@@ -2,6 +2,7 @@ import React from 'react'
 import { useParams, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import LoadingPage from './LoadingPage';
 
 function NewItemForm() {
     
@@ -17,17 +18,23 @@ function NewItemForm() {
     const query = useQuery()
 
     useEffect(() => {
-      axios.get(`https://abay-shops.herokuapp.com/valkey/${params.storeCode}/${query.get('key')}`)
-      .then((res) => {
-        if(res.status === 200){
-          setView('form')
-        }
-      })
-      .catch((err) => {
-        if(err.response.status === 401){
-          setView('error')
-        }
-      })
+      try {
+        axios.get(`https://abay-shops.herokuapp.com/valkey/${params.storeCode}/${query.get('key')}`)
+        .then((res) => {
+          if(res.status === 200){
+            setView('form')
+          }
+        })
+        .catch((err) => {
+          console.log(err)
+          if(err.response.status === 401){
+            setView('error')
+          }
+        })
+      } catch (error) {
+        console.log(error); 
+      }
+      
     }, [])
     
 
@@ -90,30 +97,31 @@ function NewItemForm() {
     
   if(view === 'form'){
     return (
-      <form className="container" onSubmit={e => postItem(e)}>
+      <form className="container form-control prose" onSubmit={e => postItem(e)}>
           <h1>Add New Item</h1>
   
           <img src="" style={{width: "100%"}}alt=""/>
   
-          <input type="file" id="photo" onChange={previewImage}/>
+          <input type="file" className='' id="photo" onChange={previewImage}/>
           <br />
-          <input type="text" id='itemName' placeholder='Item Name' required/>
+          <input type="text" id='itemName' className='input input-bordered input-primary' placeholder='Item Name' required/>
           <br />
-          <input type="number" id='price' placeholder='Price' required/>
+          <input type="number" id='price' className='input input-bordered input-primary' placeholder='Price' required/>
           <br />
-          <input type="number" id='quantity' placeholder='Quantity' required/>
+          <input type="number" id='quantity' className='input input-bordered input-primary' placeholder='Quantity' required/>
           <br />
-          <textarea name="desc" id="desc" cols="30" rows="10" placeholder='Description'></textarea>
-          <input type="submit" value={'Submit'} />
+          <textarea name="desc" id="desc" cols="30" className='input input-bordered input-primary input-lg w-full' rows="10" placeholder='Description'></textarea>
+          <br />
+          <input type="submit" className="btn btn-block btn-primary" value={'Submit'} />
           {/* <button onClick={postItem}>Submit</button> */}
           <br />
-          <button className='button button-outline'>Cancel</button>
+          {/* <button className='btn btn-block btn-outline'>Cancel</button> */}
   
       </form>
     )
   } else if (view === 'complete'){
     return(
-      <div className="container">
+      <div className="container prose">
         <h1>Your Item Has Been Uploaded</h1>
         <h2>Check Telegram For Next Steps</h2>
       </div>
@@ -127,9 +135,7 @@ function NewItemForm() {
     )
   } else if (view === 'loading'){
     return(
-      <div className="container">
-        <h1>LOADING...</h1>
-      </div>
+      <LoadingPage></LoadingPage>
     )
     
   }

@@ -21,23 +21,25 @@ function ItemThumbnail({id, setIsBuying, setItemData}) {
 
   if(loaded === false){
     return(
-      <div className="card">
-        <h4>Loading</h4>
+      <div className="container">
+        <br /><br />
+       <button className="btn btn-square loading btn-block"></button>
+       <br /><br />
       </div>
     )
   } else {
     return (
       <div onClick={() => {
         setItemData(buyItemData)
-        }} className='card'>
+        }} className='container card card-bordered'>
         <img src={"data:image/png;base64, " + buyItemData.imgString} alt="" />
   
-        <div className="info">
-          <h4>{buyItemData.itemName}</h4>
-          <span>{buyItemData.price} birr</span>
-          <br />
+        <div className="card-body prose">
+          <h2 className=''>{buyItemData.itemName}</h2>
+          <h3>{buyItemData.price} birr</h3>
           <span>{buyItemData.quantity} left</span>
           <br></br>
+          <button className="btn-primary btn-outline btn">VIEW</button>
           {/* <button className='thumbnailBtn' onClick={() => {
             setItemData(buyItemData)
             }}>VIEW</button> */}

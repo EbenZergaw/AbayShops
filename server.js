@@ -39,6 +39,12 @@ app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 
 
+// GET ALL SELLERS
+app.get('/all', async(req, res) => {
+    let sellers = await Seller.find()
+    res.json(sellers)
+})
+
 // REGISTER SELLER
 app.post('/newseller', async(req, res) => {
     const {name, phone, username, storeCode, storeName, key, misc} = req.body;

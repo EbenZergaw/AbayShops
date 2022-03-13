@@ -4,12 +4,21 @@ import axios from 'axios'
 function AdminPage() {
 
   const [registerMsg, setRegisterMsg] = useState('')
+  const [sellers, setSellers] = useState([])
 
   useEffect(() => {
     setTimeout(() => {
       setRegisterMsg('')
     }, 5000)
   }, [registerMsg])
+
+  useEffect(() => {
+    axios.get(`https://abay-shops.herokuapp.com/all`)
+    .then((res) => {
+      console.log(res)
+        setSellers(res.data)
+    })
+}, [])
 
     const registerSeller = () => {
         const data = {}
@@ -29,28 +38,57 @@ function AdminPage() {
         })
     }
   return (
-    <div className='container'>
-        <h1>Register Seller</h1>
+    <div className='prose'>
+      <h1>Admin Panel</h1>
 
-        <input type="text" id='name' placeholder=' Name' />
-        <br />
-        <br />
-        <input type="text" id='phone' placeholder='Phone' />
-        <br />
-        <input type="text" id='userName' placeholder='Telegram Username' />
-        <br />
-        <input type="text" id='storeCode' placeholder='Store Code' />
-        <br />
-        <input type="text" id='key' placeholder='Key' />
-        <br />
-        <input type="text" id='storeName' placeholder='Store Name' />
-        <br />
-        <textarea name="misc" id="misc" cols="30" rows="10" placeholder='Miscellanoues'></textarea>
-        <button className='button' onClick={registerSeller}>Register</button>
+      <div className="flex flex-row w-screen">
 
-        <div className="container card">
-          <h2>{registerMsg}</h2>
+      {/* Register Seller */}
+      <div tabIndex="0" className="collapse collapse-arrow basis-1/5">
+        <input type="checkbox" /> 
+
+        <div class="collapse-title text-xl font-medium">
+          Register Seller
         </div>
+
+        <div className="collapse-content">
+          <div className="form-control">
+            <input type="text" className='input input-primary' id='name' placeholder=' Name' />
+            <br />
+            <input type="text" className='input input-primary' id='phone' placeholder='Phone' />
+            <br />
+            <input type="text" className='input input-primary'  id='userName' placeholder='Telegram Username' />
+            <br />
+            <input type="text" className='input input-primary'  id='storeCode' placeholder='Store Code' />
+            <br />
+            <input type="text" className='input input-primary'  id='key' placeholder='Key' />
+            <br />
+            <input type="text" className='input input-primary'  id='storeName' placeholder='Store Name' />
+            <br />
+            <textarea name="misc" className='input input-primary' id="misc" cols="30" rows="10" placeholder='Miscellaneous'></textarea>
+            <button className='btn' onClick={registerSeller}>Register</button>
+
+            <div className="container card">
+              <h2>{registerMsg}</h2>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div tabIndex="0" className="collapse collapse-arrow basis-1/5">
+        <input type="checkbox" /> 
+        <div class="collapse-title text-xl font-medium">
+          Seller List
+        </div>
+        <div class="collapse-content"> 
+
+        {/*  MAKE LIST OF SELLERS */}
+          <p>tabindex="0" attribute is necessary to make the div focusable</p>
+        </div>
+      </div>
+      
+    </div>
+    
     </div>
   )
 }

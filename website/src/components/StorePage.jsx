@@ -31,9 +31,8 @@ function StorePage() {
 
     if(view === 'thumbnail'){
         return(
-            <div className="container">
+            <div className="container prose">
                 <h1>{seller.storeName}</h1>
-                <br /><br />
                 {items.map((item, index) => {
                     return(
                         <ItemThumbnail id={item} key={index} setItemData={setItemData}></ItemThumbnail>
@@ -56,12 +55,12 @@ function StorePage() {
         )
     } else if(view === 'orderConfirmation'){
         return(
-            <div className="container">
+            <div className="container prose">
                 <h1>Your Order Is Successful</h1>
                 <h2>The seller will contact you to complete your transaction.</h2>
-                <h3>Seller Name: {seller.firstName} {seller.lastName}</h3>
-                <h3>Seller Phone Number: {seller.phone}</h3>
-                <h3>Seller Telegram: <a href={`https://t.me/${seller.username}`}>@{seller.username}</a></h3>
+                <p>Seller Name: {seller.firstName} {seller.lastName}</p>
+                <p>Seller Phone Number: {seller.phone}</p>
+                <p>Seller Telegram: <a href={`https://t.me/${seller.username}`}>@{seller.username}</a></p>
             </div>
         )
     }
