@@ -11,6 +11,7 @@ const Item = require('./ItemSchema')
 
 const mongoURI = `mongodb+srv://AbayBoss:Abay123@cluster0.cbdwv.mongodb.net/Abay_Shops?retryWrites=true&w=majority`
 
+const axios = require('axios')
 require('dotenv').config()
 
 // Connect to database
@@ -45,7 +46,7 @@ app.get('/all', async(req, res) => {
     res.json(sellers)
 })
 
-app.get('/prevent143', async(req, res) => {
+app.get('/keepalive', async(req, res) => {
     res.json('Active')
 })
 
@@ -175,3 +176,23 @@ app.get('/valkey/:storeCode/:key', async (req, res) => {
         }
     }
 })
+
+
+
+// PREVENT IDLING
+const keepAlive = () => {
+    setInterval(() => {
+        try {
+            axios.get('https://abay-shops.herokuapp.com/keepalive')
+            .then((res) => {
+                console.log('Keep Alive - Ping')
+            })
+            .catch((err) => {
+                console.log('Keep alive error!', err);
+            })
+        } catch (error) {
+            console.log(error);
+        }
+    }, 1200000);
+}
+keepAlive()
