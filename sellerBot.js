@@ -3,6 +3,7 @@ const bot = new Telegraf('5130311042:AAFkNnOOLPajXav4gNZQFK3j9orDv_CS5RQ')
 const Seller = require('./SellerSchema')
 const Item = require('./ItemSchema')
 const adminBot = require('./adminBot')
+const axios = require('axios')
 
 bot.seller = {}
 
@@ -25,6 +26,7 @@ bot.help(ctx => {
 })
 
 bot.use(async(ctx, next) => {
+  axios.get('https://abay-shops.herokuapp.com/prevent143')
 
   if(ctx.update.message == undefined){
     next(ctx)
@@ -119,7 +121,6 @@ bot.action(String, async (ctx) => {
 
 // LIST OUT ITEMS
 bot.command('items', async(ctx) => {
-  ctx.reply('Your items are loading...')
   let seller = await Seller.findOne({storeCode: bot.seller.storeCode})
 
   if(seller.items.length == 0){
@@ -132,7 +133,8 @@ bot.command('items', async(ctx) => {
         ]
       }
     })
-  } else {
+  } else { 
+    ctx.reply('Your items are loading...')
     seller.items.forEach(async(id) => {
       let item = await Item.findById(id)
       if(item === null){

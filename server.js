@@ -45,6 +45,10 @@ app.get('/all', async(req, res) => {
     res.json(sellers)
 })
 
+app.get('/prevent143', async(req, res) => {
+    res.json('Active')
+})
+
 // REGISTER SELLER
 app.post('/newseller', async(req, res) => {
     const {name, phone, username, storeCode, storeName, key, misc} = req.body;
