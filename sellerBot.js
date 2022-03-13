@@ -121,31 +121,43 @@ bot.action(String, async (ctx) => {
 bot.command('items', async(ctx) => {
   ctx.reply('Your items are loading...')
   let seller = await Seller.findOne({storeCode: bot.seller.storeCode})
-  
-  seller.items.forEach(async(id) => {
-    let item = await Item.findById(id)
-    if(item === null){
-      seller.items.splice(seller.items.indexOf(id), 1)
-      await seller.save()
-    } else {
-      ctx.replyWithPhoto({ source: Buffer.from(item.imgString, 'base64')}, 
-        { caption: `${item.itemName}
-        Price: ${item.price} birr
-        Quantity: ${item.quantity}
-        
-        ${item.desc}`,
-          reply_markup: {
-            inline_keyboard: [
-              [
-                { text: 'BUY', url: `abayshops.com/${bot.seller.storeCode}`}
+
+  if(seller.items.length == 0){
+    bot.telegram.sendMessage(ctx.chat.id, "You don't have any items currently. Upload items now.", {
+      reply_markup: {
+        inline_keyboard: [
+          [
+            { text: 'Add New Item', url: `www.abayshops.com/${bot.seller.storeCode}/newitem?key=${bot.seller.key}`}
+          ]
+        ]
+      }
+    })
+  } else {
+    seller.items.forEach(async(id) => {
+      let item = await Item.findById(id)
+      if(item === null){
+        seller.items.splice(seller.items.indexOf(id), 1)
+        await seller.save()
+      } else {
+        ctx.replyWithPhoto({ source: Buffer.from(item.imgString, 'base64')}, 
+          { caption: `${item.itemName}
+          Price: ${item.price} birr
+          Quantity: ${item.quantity}
+          
+          ${item.desc}`,
+            reply_markup: {
+              inline_keyboard: [
+                [
+                  { text: 'BUY', url: `abayshops.com/${bot.seller.storeCode}`}
+                ]
               ]
-            ]
+            }
           }
-        }
-      )
-    }
-    
-  })
+        )
+      }
+      
+    })
+  }  
 })
 
 const newItemNotification = async (id, data) => {

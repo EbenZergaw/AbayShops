@@ -59,7 +59,7 @@ app.post('/newseller', async(req, res) => {
             storeName,
             misc
         })
-    
+        
         await seller.save()
     
         res.status(201).json({msg: 'Seller has been registered'})
