@@ -74,28 +74,33 @@ bot.command(['newItem', 'newitem'], (ctx) => {
 
 // LIST OUT ORDERS
 bot.command('orders', async(ctx) => {
-  ctx.reply('Your orders are loading...')
-  let seller = await Seller.findOne({storeCode: bot.seller.storeCode})
-
-  if(seller.orders.length === 0){
-    ctx.reply('You have no orders')
-  } else {
-    seller.orders.forEach(async(order, index) => {
-
-      let item = await Item.findById(order.imageID)
+  try {
+    ctx.reply('Your orders are loading...')
+    let seller = await Seller.findOne({storeCode: bot.seller.storeCode})
   
-      ctx.reply(
-      `Buyer: ${order.firstName} ${order.lastName}
-  Phone: ${order.phone}
-  Item: ${item.itemName}`, {reply_markup: {
-    inline_keyboard: [
-      [
-        { text: 'CLEAR ORDER', callback_data: `${item._id}`}
+    if(seller.orders.length === 0){
+      ctx.reply('You have no orders')
+    } else {
+      seller.orders.forEach(async(order, index) => {
+  
+        let item = await Item.findById(order.imageID)
+    
+        ctx.reply(
+        `Buyer: ${order.firstName} ${order.lastName}
+    Phone: ${order.phone}
+    Item: ${item.itemName}`, {reply_markup: {
+      inline_keyboard: [
+        [
+          { text: 'CLEAR ORDER', callback_data: `${item._id}`}
+        ]
       ]
-    ]
-  }})
-    })
+    }})
+      })
+    }
+  } catch (error) {
+    console.log(error);
   }
+  
   
 })
 
