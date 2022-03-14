@@ -95,13 +95,11 @@ app.post('/postItem', async(req, res) => {
         seller.items.push(item._id)
         await seller.save()
         
-        res.send(item)
+        res.send('Item Posted')
 
         sellerBot.newItemNotification(seller.telegramID, item)
         adminBot.newItemNotification(seller, item)
     }
-
-    // TODO --- Seller Bot Notification
 })
 
 // GET SELLER DATA

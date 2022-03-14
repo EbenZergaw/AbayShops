@@ -18,7 +18,7 @@ function AdminPage() {
     .then((res) => {
       setSellers(res.data)
     })
-}, [])
+  }, [])
 
     const registerSeller = () => {
         const data = {}
