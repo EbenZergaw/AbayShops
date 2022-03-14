@@ -84,17 +84,19 @@ bot.command('orders', async(ctx) => {
       seller.orders.forEach(async(order, index) => {
   
         let item = await Item.findById(order.imageID)
-    
-        ctx.reply(
-        `Buyer: ${order.firstName} ${order.lastName}
-    Phone: ${order.phone}
-    Item: ${item.itemName}`, {reply_markup: {
-      inline_keyboard: [
-        [
-          { text: 'CLEAR ORDER', callback_data: `${item._id}`}
-        ]
-      ]
-    }})
+
+        if(item != null){
+          ctx.reply(
+            `Buyer: ${order.firstName} ${order.lastName}
+        Phone: ${order.phone}
+        Item: ${item.itemName}`, {reply_markup: {
+          inline_keyboard: [
+            [
+              { text: 'CLEAR ORDER', callback_data: `${item._id}`}
+            ]
+          ]
+        }})
+        }
       })
     }
   } catch (error) {
