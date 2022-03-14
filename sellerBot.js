@@ -75,12 +75,13 @@ bot.command(['newItem', 'newitem'], (ctx) => {
 // LIST OUT ORDERS
 bot.command('orders', async(ctx) => {
   try {
-    ctx.reply('Your orders are loading...')
+    
     let seller = await Seller.findOne({storeCode: bot.seller.storeCode})
   
     if(seller.orders.length === 0){
       ctx.reply('You have no orders')
     } else {
+      ctx.reply('Your orders are loading...')
       seller.orders.forEach(async(order, index) => {
   
         let item = await Item.findById(order.imageID)
