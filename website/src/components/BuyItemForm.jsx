@@ -11,7 +11,6 @@ function BuyItemForm({itemData, setView}) {
     
   
     const handleBuy = () => {
-        setView('loading')
         axios.post(`https://abay-shops.herokuapp.com/neworder/${params.storeCode}/${itemData._id}`, orderInfo)
         .then((res) => {
             setView('orderConfirmation')
@@ -54,7 +53,7 @@ function BuyItemForm({itemData, setView}) {
                     <h3 className='mt-4'>Name: {orderInfo.firstName} {orderInfo.lastName}</h3>
                     <h3 className='mt-4'>Phone Number: {orderInfo.phone}</h3>
                 </div>
-                <button className="btn btn-primary btn-block mt-4" onClick={handleBuy}>BUY</button>
+                <button className="btn btn-primary btn-block mt-4" onClick={() => handleBuy()}>BUY</button>
                 <br /><br />
                 <button className="btn btn-outline btn-block" onClick={() => setFormView('buyerInfo')}>Back</button>
             </div>
