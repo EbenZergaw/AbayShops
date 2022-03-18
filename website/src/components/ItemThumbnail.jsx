@@ -44,9 +44,10 @@ function ItemThumbnail({ itemID, setPushToItemsArray, setSelectedItem, setView, 
       })
     }
   }, [])
+
   
 
-  if(thumbnailView === 'loaded'){
+  if(thumbnailView === 'loaded' && item.imgString != undefined){
     
       return (
         <div className='container card card-bordered shadow-lg'>
