@@ -17,15 +17,6 @@ function ItemThumbnail({ itemID, setPushToItemsArray, setSelectedItem, setView, 
 
   useEffect(() => {
     if(itemsArray.length > 0){
-      // let item = itemsArray.some(e => {
-      //   console.log(itemsArray);
-      //   console.log('ID', itemID);
-      //   if(e._id == itemID){
-          
-      //     setItem(e)
-      //   }
-      //   return e
-      // })
       itemsArray.forEach((item) => {
         if(item._id == itemID){
           setItem(item)
@@ -44,13 +35,21 @@ function ItemThumbnail({ itemID, setPushToItemsArray, setSelectedItem, setView, 
         })
       }
     }
+    if(!itemsArray.some(e => e._id == itemID)){
+      axios.get(`https://abay-shops.herokuapp.com/image/${itemID}`)
+      .then((res) => {
+        setPushToItemsArray(res.data)
+        setItem(res.data)
+        setThumbnailView('loaded')
+      })
+    }
   }, [])
   
 
   if(thumbnailView === 'loaded'){
     
       return (
-        <div className='container card card-bordered'>
+        <div className='container card card-bordered shadow-lg'>
           <img className='w-5/6 mx-auto mb-0' src={"data:image/png;base64, " + item.imgString} alt="" />
     
           <div className="card-body">
