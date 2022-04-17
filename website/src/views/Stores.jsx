@@ -35,7 +35,6 @@ function Stores() {
                   </Link>
                 )
                 })}
-            
                 </div>
             </div>
         )
