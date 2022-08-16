@@ -63,7 +63,7 @@ function ItemThumbnail({ itemID, setPushToItemsArray, setSelectedItem, setView, 
     }
     
     return (
-      <div className='container card card-bordered shadow-lg'>
+      <div className='container card card-bordered shadow-lg mb-4'>
         <img className='w-5/6 mx-auto mb-0' src={"data:image/png;base64, " + item.imgString} alt="" />
   
         <div className="card-body">

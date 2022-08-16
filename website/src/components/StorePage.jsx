@@ -74,14 +74,14 @@ function StorePage() {
         if(isBrowser == true){
             return(
                 <div className="container mx-auto">
-                    <h1 className='text-5xl mt-4'>{sellerData.storeName}</h1>
+                    <h1 className='text-5xl font-bold mt-4'>{sellerData.storeName}</h1>
                     <ItemView itemData={selectedItem} setView={setView} view={view} setSelectedItem={setSelectedItem}></ItemView>
                 </div>
             )
         }
         return(
             <div className="container">
-                <h1 className='text-5xl mt-4'>{sellerData.storeName}</h1>
+                <h1 className='text-5xl font-bold mt-4'>{sellerData.storeName}</h1>
                 <ItemView itemData={selectedItem} setView={setView} view={view} setSelectedItem={setSelectedItem}></ItemView>
             </div>
         )
