@@ -9,7 +9,7 @@ const adminBot = require('./adminBot')
 
 const Item = require('./ItemSchema')
 
-const mongoURI = `mongodb+srv://AbayBoss:Abay123@cluster0.cbdwv.mongodb.net/Abay_Shops?retryWrites=true&w=majority`
+const mongoURI = env("MONGO_URI")
 
 const axios = require('axios')
 require('dotenv').config()
