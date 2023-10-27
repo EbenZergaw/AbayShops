@@ -1,5 +1,5 @@
 const {Telegraf} = require('telegraf')
-const bot = new Telegraf('5130311042:AAFkNnOOLPajXav4gNZQFK3j9orDv_CS5RQ')
+const bot = new Telegraf(env("TELEGRAF)
 const Seller = require('./SellerSchema')
 const Item = require('./ItemSchema')
 const adminBot = require('./adminBot')
